@@ -40,7 +40,7 @@ runs:
       shell: bash
       run: |
             if [ "Linux" = ${{ inputs.os }} ]; then
-                echo "OS_SUFFIX=linux_headless.64" >> $GITHUB_ENV
+                echo "OS_SUFFIX=linux.x86_64.zip" >> $GITHUB_ENV
             elif [ "Windows" = ${{ inputs.os }} ]; then
                 echo "OS_SUFFIX=win64.exe" >> $GITHUB_ENV
             fi
@@ -82,6 +82,7 @@ runs:
       shell: bash
       if: steps.cache-godot.outputs.cache-hit != 'true'
       run: |
+      4.2.1-stable/Godot_v4.2.1-stable_linux.arm64.zip
         wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_${{ env.OS_SUFFIX }}.zip
         wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-stable_${{ env.OS_SUFFIX }}.zip
