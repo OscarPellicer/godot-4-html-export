@@ -39,19 +39,25 @@ runs:
     - name: Define OS_SUFFIX
       shell: bash
       run: |
-        [[ "Linux" = ${{ inputs.os }} ]] && echo "OS_SUFFIX=linux_headless.64" >> $GITHUB_ENV
-        [[ "Windows" = ${{ inputs.os }} ]] && echo "OS_SUFFIX=win64.exe" >> $GITHUB_ENV
+            if [ "Linux" = ${{ inputs.os }} ]; then
+                echo "OS_SUFFIX=linux_headless.64" >> $GITHUB_ENV
+            elif [ "Windows" = ${{ inputs.os }} ]; then
+                echo "OS_SUFFIX=win64.exe" >> $GITHUB_ENV
+            fi
 
     - name: Define TEMPLATE_DIR
       shell: bash
       run: |
-        [[ "Linux" = ${{ inputs.os }} ]] && echo "TEMPLATE_DIR=~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable" >> $GITHUB_ENV
-        [[ "Windows" = ${{ inputs.os }} ]] && echo "TEMPLATE_DIR=C:/Users/runneradmin/AppData/Roaming/Godot/export_templates/${{ inputs.godot-version }}.stable" >> $GITHUB_ENV
+            if [ "Linux" = ${{ inputs.os }} ]; then
+                echo "TEMPLATE_DIR=~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable" >> $GITHUB_ENV
+            elif [ "Windows" = ${{ inputs.os }} ]; then
+                echo "TEMPLATE_DIR=C:/Users/runneradmin/AppData/Roaming/Godot/export_templates/${{ inputs.godot-version }}.stable" >> $GITHUB_ENV
+            fi
 
     - name: Create export presets config
       if: ${{ inputs.create-export-preset-cfg  == 'true' }}
       shell: bash
-      run: cp D:/a/_actions/dulvui/godot-4-html-export/v0.0.2/export_presets.cfg ${{ inputs.working-directory }}/export_presets.cfg
+      run: cp D:/a/_actions/OscarPellicer/godot-4-html-export/v0.0.2/export_presets.cfg ${{ inputs.working-directory }}/export_presets.cfg
 
     - name: Create export paths directory structure
       shell: bash
@@ -83,8 +89,6 @@ runs:
         mkdir -p ${{ env.TEMPLATE_DIR }}
         mv templates/* ${{ env.TEMPLATE_DIR }}
         rm -f Godot_v${{ inputs.godot-version }}-stable_${{ env.OS_SUFFIX }}.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-
-
 
     - name: Export Godot project to html
       shell: bash
