@@ -63,15 +63,16 @@ runs:
       shell: bash
       run: mkdir -p "$(dirname ${{ inputs.output-file-path }})"
 
-    # - name: Cache Godot files
-    #   id: cache-godot
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: |
-    #       ~/.local/share/godot/**
-    #       /usr/local/bin/godot
-    #       ~/.config/godot/**
-    #     key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
+    - name: Cache Godot files
+      id: cache-godot
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/godot/**
+          /usr/local/bin/godot
+          ~/.config/godot/**
+          #Godot_v${{ inputs.godot-version }}-stable_${{ env.OS_SUFFIX }}.zip  # Include the downloaded zip file in the cache
+        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
 
     - name: Install wget on Windows
       shell: bash
